@@ -1,3 +1,7 @@
+# Installing necessary dependences
+
+## `npm i react react-dom react-hook-form react-router-dom redux react-redux redux-thunk axios jwt-decode`
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
