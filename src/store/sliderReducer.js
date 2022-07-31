@@ -1,12 +1,20 @@
+import students from '../img/arts/students.jpg'
+import group from '../img/arts/group.jpg'
+import people from '../img/arts/people.jpg'
+import table from '../img/arts/table.jpg'
+import school from '../img/arts/school.jpg'
+
+
 const SET_OFFSET = 'SET_OFFSET'
-const SET_TURNSET = 'SET_TURNSET'
-const SET_SWITCHING = 'SET_SWITCHING'
+
 
 const initialState = {
-    imgs: ['#e74c3c', '#3498db', '#e67e22', '#8e44ad', '#f1c40f'],
+    imgs: [students,
+            group,
+            people,
+            table,
+            school],
     offset: 0,
-    turnset: 0,
-    isSwitching: false
 }
 
 export default function sliderReducer(state = initialState, action) {
@@ -14,14 +22,6 @@ export default function sliderReducer(state = initialState, action) {
         case SET_OFFSET:
             return {...state,
                 offset: action.val
-            }
-        case SET_TURNSET:
-            return {...state,
-                offset: action.val
-            }
-        case SET_SWITCHING:
-            return {...state,
-                isSwitching: action.bool
             }
         default:
             return {...state}
@@ -35,33 +35,9 @@ export const setOffsetCreator = val => {
     }
 }
 
-export const setTurnsetCreator = val => {
-    return {
-        type: SET_TURNSET,
-        val: val
-    }
-}
 
-export const setSwitchingCreator = bool => {
-    return {
-        type: SET_SWITCHING,
-        bool: bool
-    }
-}
 
-const slider = new Promise((resolve, reject) => {return true})
 
-export const switchSliderThunk = (newOffset) => dispatch => {
-    setTimeout(() => {
-        slider.then(() => {
-            console.log(9000)
-
-            dispatch(setSwitchingCreator(true))
-        }).then(() => {
-            dispatch(setOffsetCreator(newOffset))
-        }).then(dispatch(setSwitchingCreator(false)))
-    }, 300)
-}
 
 
 

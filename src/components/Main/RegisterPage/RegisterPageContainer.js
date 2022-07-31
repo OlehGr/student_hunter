@@ -2,6 +2,8 @@ import RegisterPage from "./RegisterPage";
 import {useDispatch, useSelector} from "react-redux";
 import {setEmailFieldValidThunk, setPhoneFieldValidThunk} from "../../../store/authFormReducer";
 import {registerThunk} from "../../../store/authReducer";
+import {useEffect} from "react";
+import {useNavigate} from "react-router-dom";
 
 export default function RegisterPageContainer() {
     const dispatch = useDispatch()
@@ -36,7 +38,13 @@ export default function RegisterPageContainer() {
     return <RegisterPageRouter {...state} setEmailFieldValid={setEmailFieldValid} setPhoneFieldValid={setPhoneFieldValid} register={register} />
 }
 
-function RegisterPageRouter({error, email, phone, register, setEmailFieldValid, setPhoneFieldValid}) {
+function RegisterPageRouter({isLogin, error, email, phone, register, setEmailFieldValid, setPhoneFieldValid}) {
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (isLogin) navigate('../', {replace: true})
+    }, [isLogin, navigate]);
+
 
     return <RegisterPage error={error}
 

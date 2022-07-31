@@ -17,7 +17,7 @@ export default function RegisterPage({error, email, phone, register}) {
 
     const RegisterForm = useForm({mode: "onChange"})
 
-    const {handleSubmit, reset, formState} = RegisterForm
+    const {handleSubmit, formState} = RegisterForm
 
     const submitRegister = data => {
         const {email, phone, password, name, surname, aftername, group, github, role, img} = data
@@ -28,6 +28,7 @@ export default function RegisterPage({error, email, phone, register}) {
         <>
             <section className="section section--reg">
                 <div className="container container--reg">
+                    {error.message && <p className="error weight">{error.message}</p>}
                     <FormProvider {...RegisterForm}>
                         <form className="reg-form" onSubmit={handleSubmit(data => submitRegister(data))}>
                             <div className="reg-form__ava">

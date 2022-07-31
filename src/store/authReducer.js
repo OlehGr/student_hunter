@@ -1,7 +1,7 @@
 import Cookies from "../API/CookieController.js";
 import {setLoadingCreator} from "./loaderReducer";
 import {AuthAPI} from "../API/api";
-import {setErrorsCreator} from "./authFormReducer";
+import {setLoginErrorsCreator, setRegisterErrorsCreator} from "./authFormReducer";
 
 
 const SET_AUTH = 'SET_AUTH'
@@ -82,7 +82,7 @@ export const loginThunk = (email, password) => dispatch => {
         const [message, name] = error.response.data.message.split(':')
 
 
-        dispatch(setErrorsCreator(message, name))
+        dispatch(setLoginErrorsCreator(message, name))
         dispatch(setLoadingCreator(false))
     })
 
@@ -97,7 +97,11 @@ export const registerThunk = (email, phone, password, name, surname, aftername, 
 
             dispatch(setAuthCreator(id, name))
             dispatch(setLoadingCreator(false))
-        }, res => {
+        }, error => {
+            const message = error.response.data.message
+
+            dispatch(setRegisterErrorsCreator(message))
+
             dispatch(setLoadingCreator(false))
         }
     )
