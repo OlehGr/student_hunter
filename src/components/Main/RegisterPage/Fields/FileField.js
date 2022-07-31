@@ -5,7 +5,7 @@ import FileFieldErrorState from "./Errors/FileFieldErrorState";
 
 export default function FileField() {
 
-    const {register, formState, getFieldState, setError, watch} = useFormContext()
+    const {register, formState, getFieldState, watch} = useFormContext()
     const {error} = getFieldState('img', formState)
     const img = watch('img')
 

@@ -2,7 +2,8 @@ import {AuthFormAPI} from "../API/api";
 
 
 
-const SET_ERRORS = 'SET_ERRORS'
+const SET_LOGIN_ERRORS = 'SET_LOGIN_ERRORS'
+const SET_REGISTER_ERRORS = 'SET_REGISTER_ERRORS'
 
 const SET_EMAIL_ERROR_STATE = 'SET_EMAIL_ERROR_STATE'
 const SET_EMAIL_FIELD_LOADING = 'SET_EMAIL_FIELD_LOADING'
@@ -36,12 +37,21 @@ const initialState = {
 
 export default function authFormReducer(state = initialState, action) {
     switch (action.type) {
-        case SET_ERRORS:
+        case SET_LOGIN_ERRORS:
             return {...state,
                 login: {...state.login,
                     error: {...state.login.error,
                         message: action.message,
                         name: action.name
+                    }
+                }
+            }
+
+        case SET_REGISTER_ERRORS:
+            return {...state,
+                register: {...state.register,
+                    error: {...state.register.error,
+                        message: action.message
                     }
                 }
             }
@@ -87,11 +97,18 @@ export default function authFormReducer(state = initialState, action) {
 }
 
 
-export const setErrorsCreator = (message, name) => {
+export const setLoginErrorsCreator = (message, name) => {
     return {
-        type: SET_ERRORS,
+        type: SET_LOGIN_ERRORS,
         message: message,
         name: name
+    }
+}
+
+export const setRegisterErrorsCreator = message => {
+    return {
+        type: SET_REGISTER_ERRORS,
+        message: message
     }
 }
 
@@ -135,6 +152,7 @@ export const setEmailFieldValidThunk = email => dispatch => {
 
     }, () => dispatch(setEmailFieldLoadingCreator(false)))
 }
+
 
 export const setPhoneFieldValidThunk = phone => dispatch => {
     dispatch(setPhoneFieldLoadingCreator(true))

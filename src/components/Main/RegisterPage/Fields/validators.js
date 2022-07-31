@@ -1,5 +1,4 @@
 
-
 export const FileImgValidator = files => {
     if (files) {
         const formats = ['jpeg', 'jpg', 'png']

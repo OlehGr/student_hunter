@@ -17,11 +17,6 @@ export default function SliderContainer() {
     const offsetBefore = (!offset) ? lastIndex : offset-1
     const offsetNext = (offset === lastIndex) ? 0 : offset+1
 
-    // const setOffset = newOffset => {
-    //     dispatch(setOffsetCreator(newOffset))
-    // }
-
-
 
     const slides = [{id: offsetBefore, img: imgs[offsetBefore]},
                     {id: offset, img: imgs[offset]},
