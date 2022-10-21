@@ -6,7 +6,7 @@ const path = require('path')
 const {User, UserApp, UserFeeedback, UserPortfolio, UserResume, UserAvatar} = require('../models/models.js')
 
 const generateJwt = (id, email, name, surname, aftername, classNum, git, phoneNum, role, img, portfolioId, resumeId) => {
-    return jwt.sign({id, email, name, surname, aftername, classNum, git, phoneNum, role, img, portfolioId, resumeId}, process.env.SECRET_KEY, {expiresIn: '24h'})
+    return jwt.sign({id, email, name, surname, aftername, classNum, git, phoneNum, role, img, portfolioId, resumeId}, process.env.SECRET_KEY, {expiresIn: '10d'})
 }
 //
 class UserController {
@@ -26,7 +26,7 @@ class UserController {
 
         let fileName
         if (!req.files) {
-            fileName =  'noimg'
+            fileName = 'noimg'
         } else {
             fileName = uuid.v4()+'.jpg';
             const img = req.files.img
@@ -59,6 +59,7 @@ class UserController {
                 return next(ApiError.notFoundReq('Такого пользователя не существует:email'))
             }
             let comparePassword = bcrypt.compareSync(password, user.password)
+            
             if(!comparePassword) {
                 return next(ApiError.notFoundReq('Неверный пароль:password'))
             }
@@ -86,6 +87,41 @@ class UserController {
             req.user.img, req.user.portfolioId, req.user.resumeId)
 
         return res.json({token})
+    }
+
+    async getOneUser (req, res, next) {
+
+        const {id} = req.params
+
+        if(!id) return next(ApiError.notFoundReq('Не указан искомый пользователь'))
+
+        const user = await User.findOne({where: {id}})
+
+        const userData = {...user.dataValues}
+
+        const data = {
+            id: userData.id,
+            email: userData.email,
+            name: userData.name,
+            surname: userData.surname,
+            aftername: userData.aftername,
+            group: userData.classNum,
+            git: userData.git,
+            phone: userData.phoneNum,
+            role: userData.role,
+        }
+
+        return res.json({user: data})
+    }
+
+    async getUserImg (res, req, next) {
+        
+        const {userId} = req.req.params
+        
+
+        const img = await UserAvatar.findOne({where: {userId}})
+
+        return res.res.json({img: img.img})
     }
 
     async checkEmail (req, res, next) {

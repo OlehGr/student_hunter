@@ -5,7 +5,9 @@ const authMidaleware = require('../midleware/authMidaleware')
 
 router.post('/add', authMidaleware, ResumeController.addinfo)
 router.delete('/del', authMidaleware, ResumeController.delinfo)
+router.put('/change', authMidaleware, ResumeController.updateinfo)
 router.get('/', authMidaleware, ResumeController.getResume)
+
 
 
 

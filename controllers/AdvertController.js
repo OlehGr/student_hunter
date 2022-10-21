@@ -1,7 +1,7 @@
 const ApiError = require('../errors/ApiError.js')
 const uuid = require('uuid')
 const path = require('path')
-const {UserAd, UserAd_Info} = require('../models/models.js')
+const {UserAd, UserAd_Info, UserAd_Img} = require('../models/models.js')
 
 class AdvertController {
 
@@ -21,6 +21,7 @@ class AdvertController {
                 const advert = await UserAd.create({name, description, userId})
 
                 if(adverst_info) {
+                    console.log(adverst_info);
                     adverst_info.forEach(i => {
                         UserAd_Info.create({
                             title: i.title,
@@ -30,7 +31,19 @@ class AdvertController {
                     })
                 }
 
-                return res.json(advert)
+
+                if(req.files?.img) {
+                    const fileName = uuid.v4()+'.jpg';
+                    const {img} = req.files
+                    
+                    await img.mv(path.resolve(__dirname, '..', 'static', fileName))
+                    console.log(fileName);
+                    const advertImg = await UserAd_Img.create({img: fileName, userAdvertisementId: advert.id})
+
+                    return res.json({...advert.dataValues, img: advertImg?.img || ''})
+
+                
+            } else return res.json(advert)
             default:
                 return next(ApiError.notFoundReq('Пользователь неопределён - ОШИБКА!!!'))
         }
@@ -65,19 +78,27 @@ class AdvertController {
         let offset = page * limit - limit
 
 
-        const adverts = await UserAd.findAndCountAll({limit, offset})
+        const adverts = await UserAd.findAndCountAll({limit, offset, order: [[ 'id', 'DESC' ]]})
 
         return res.json(adverts)
     }
 
     async getOne (req, res, next)  {
         const {id} = req.params
-        const advert = await UserAd.findOne({
+        
+        const img = await UserAd_Img.findOne({where: {userAdvertisementId: id}})
+        
+        const adv = await UserAd.findOne({
             where: {id},
-            include: [{model: UserAd_Info, as: 'adverst_info'}]
+            include: [
+                    {model: UserAd_Info, as: 'adverst_info'}
+                ]
         })
 
-        return res.json(advert)
+        if(img) adv.dataValues.img = img.dataValues.img
+
+
+        return res.json(adv)
     }
 
 }

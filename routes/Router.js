@@ -9,7 +9,7 @@ const PortfolioRouter = require('./PortfolioRouter')
 const ResumeRouter = require('./ResumeRouter')
 
 router.use('/user', UserRouter)
-router.use('/adverst', AdvertRouter)
+router.use('/advert', AdvertRouter)
 router.use('/feedback', FeedBackRouter)
 router.use('/apply', ApplyRouter)
 router.use('/portfolio', PortfolioRouter)

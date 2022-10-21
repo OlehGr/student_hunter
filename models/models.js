@@ -66,6 +66,11 @@ const UserAd_Info = sequelize.define('user-advertisement-info', { // Инфо п
     description: {type: DataTypes.STRING, allowNull: false}
 })
 
+const UserAd_Img = sequelize.define('user-advertisement-img', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    img: {type: DataTypes.STRING, allowNull: false}
+})
+
 const Advertisements = sequelize.define('all-advertisement', {
 }) // Все объяыления
 
@@ -108,6 +113,8 @@ UserFeedback.belongsTo(User) // Перечень откликов принадл
 UserAd.hasMany(UserAd_Info, {as: 'adverst_info'}) // Одно объявление имеет много инфо полей
 UserAd_Info.belongsTo(UserAd) // Инфо поле принадлежит к одному объявлению
 
+UserAd.hasOne(UserAd_Img, {as: 'adverst_img'}) // Одно объявление имеет одну картинку
+UserAd_Img.belongsTo(UserAd) // Одно к одному
 
 UserAd.hasMany(Rating) // Одно объявлени имеет много рейтингов
 Rating.belongsTo(UserAd) // Рейтинг принадлежит объявлению
@@ -116,7 +123,7 @@ Rating.belongsTo(UserAd) // Рейтинг принадлежит объявле
 module.exports = {
     User, UserFeedback, UserApp, UserAd, UserPortfolio,
     UserResume, Rating, Resume_Info, PortfolioWork,
-    UserAd_Info, Advertisements, UserAvatar
+    UserAd_Info, Advertisements, UserAvatar, UserAd_Img
 }
 
 
