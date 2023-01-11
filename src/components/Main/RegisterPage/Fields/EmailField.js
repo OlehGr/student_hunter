@@ -9,7 +9,7 @@ export default function EmailField({isValid, setEmailFieldValid, isLoading}) {
 
     useEffect(() => {
         if (!isValid) setError('email', {type: 'existing', message: 'Этот логин уже занят'})
-    }, [isValid])
+    }, [isValid, setError])
 
     const onBlurEffect = e => {
         if(isDirty) setEmailFieldValid(e.currentTarget.value)

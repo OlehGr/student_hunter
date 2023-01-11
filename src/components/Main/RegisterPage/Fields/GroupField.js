@@ -19,7 +19,7 @@ export default function GroupField() {
                 <input {...register('group', {
                     required: 'Это поле обязательно',
                     pattern: {
-                        value: /^[А-Я]{2,5}\-[0-9]{2}$/,
+                        value: /^[А-Я]{2,5}-[0-9]{2}$/,
                         message: 'Такой группы не существует'
                     }
                 })}

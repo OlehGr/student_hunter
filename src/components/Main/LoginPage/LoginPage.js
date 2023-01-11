@@ -5,7 +5,7 @@ import Loader from "../../Loader/Loader";
 import {useEffect} from "react";
 
 
-export default function LoginPage(props) {
+export default function LoginPage({login, error: {message, name}}) {
 
     const LoginForm = useForm({ // С помощью хука useForm() создаём объект формы
         mode: "onChange"}) // В параметрах (опциях) указываем мод ререндеринга: на каждое изменение значения
@@ -15,16 +15,16 @@ export default function LoginPage(props) {
 
 
     const submitLogin = (data) => {
-        props.login(data.email, data.password)
+        login(data.email, data.password)
     }
 
 
 
     useEffect(() => {
         reset({ // reset() функция которая меняет значения формы по объекту, который в неё передали: { имя_инпута: значение }
-            [props.name]: ''
+            [name]: ''
         })
-    }, [props.message, props.name, reset])
+    }, [message, name, reset])
 
 
     return (
@@ -34,7 +34,7 @@ export default function LoginPage(props) {
                     <div className="container container--login">
                         <form onSubmit={handleSubmit(data => submitLogin(data))} className="login-form">
                             <h1 className="title">Авторизация</h1>
-                            { props.message && <p className="error weight">{props.message}</p>}
+                            { message && <p className="error weight">{message}</p>}
                             <div className="form-field">
                                 <EmailField />
                             </div>

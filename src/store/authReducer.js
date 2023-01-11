@@ -1,4 +1,4 @@
-import Cookies from "../API/CookieController.js";
+import Cookies from "../API/CookieController.ts";
 import {setLoadingCreator} from "./loaderReducer";
 import {AuthAPI} from "../API/api";
 import {setLoginErrorsCreator, setRegisterErrorsCreator} from "./authFormReducer";
@@ -26,7 +26,7 @@ export default function authReducer(state = initialState, action) {
                 userName: action.userName
             }
         case RESET_AUTH:
-            Cookies.setCookie('token', '')
+            Cookies.delCookie('token')
 
             return {...state,
                 isLogin: false,
@@ -79,6 +79,7 @@ export const loginThunk = (email, password) => dispatch => {
 
         dispatch(setLoadingCreator(false))
     }, error => { // Reject
+
         const [message, name] = error.response.data.message.split(':')
 
 

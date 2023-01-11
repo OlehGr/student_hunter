@@ -65,3 +65,16 @@ export const AuthFormAPI = {
             })
     }
 }
+
+export const AdvertsAPI = {
+    getAllNew() {
+        return instance.get('advert/?limit=10&page=1').then(res => {
+            return res.data
+        })
+    },
+    async getOne(advertId) {
+        return instance.get('advert/' + advertId).then(res => {
+            return res.data
+        })
+    }
+}

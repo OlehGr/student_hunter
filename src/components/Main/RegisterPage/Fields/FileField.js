@@ -1,5 +1,4 @@
 import {useFormContext} from "react-hook-form";
-import {useEffect} from "react";
 import {FileImgValidator} from "./validators";
 import FileFieldErrorState from "./Errors/FileFieldErrorState";
 
@@ -20,7 +19,7 @@ export default function FileField() {
             <label htmlFor="file" className={"file-label" + ( (img && img.length ) ? ' dirty' : '')}>
                 <input {...register('img', {
                         validate: {
-                            isImg: img => !FileImgValidator(img) || 'Неподходящий формат файла'
+                            isImg: img => FileImgValidator(img)
                         }
                     })}
                        className="file-input"
