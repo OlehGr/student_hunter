@@ -1,6 +1,6 @@
 # Installing necessary dependences
 
-## `npm i react react-dom react-hook-form react-router-dom redux react-redux redux-thunk axios jwt-decode`
+## `npm i `
 
 # Getting Started with Create React App
 
